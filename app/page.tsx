@@ -63,13 +63,7 @@ export default function Home() {
 
       {/* ── Footer ── */}
       <footer className={styles.footer}>
-        <p>
-          Built for U.S. W2 employees · California MVP · 2026 IRS data ·{' '}
-          <a href="https://github.com/Smart123-12/bluetax" target="_blank" rel="noopener noreferrer">
-            GitHub ↗
-          </a>
-          {' '}· Estimation only — not tax advice
-        </p>
+        <p>Built for U.S. W2 employees · California MVP · 2026 IRS data</p>
       </footer>
     </main>
   );
