@@ -1,0 +1,36 @@
+.card { padding: 28px; }
+.title { font-size: 1.1rem; margin-bottom: 18px; }
+
+.grossRow {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 10px 0;
+}
+.grossLabel  { font-size: 0.9rem; font-weight: 600; color: var(--text-secondary); }
+.grossAmount { font-size: 1.15rem; font-weight: 700; color: var(--text-primary); }
+
+.agiRow {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 6px 0;
+  font-size: 0.83rem;
+  color: var(--text-muted);
+}
+
+.divider { height: 1px; background: var(--border-subtle); margin: 12px 0; }
+
+.row { margin-bottom: 18px; }
+.rowLeft  { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 6px; }
+.rowDot   { width: 10px; height: 10px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
+.rowLabel { font-size: 0.9rem; font-weight: 600; color: var(--text-primary); }
+.rowHint  { font-size: 0.75rem; color: var(--text-muted); margin-top: 2px; }
+.rowRight { display: flex; justify-content: space-between; align-items: center; padding-left: 22px; margin-bottom: 6px; }
+.rowAmount { font-size: 1rem; font-weight: 700; color: var(--text-primary); }
+.rowPct    { font-size: 0.8rem; color: var(--text-muted); }
+
+.rowBar      { height: 5px; background: var(--blue-50); border-radius: var(--radius-full); overflow: hidden; margin-left: 22px; }
+.rowBarFill  { height: 100%; border-radius: var(--radius-full); transition: width 800ms var(--ease-spring); }
+
+.totalRow  { display: flex; justify-content: space-between; align-items: center; }
+.totalLabel { font-size: 1rem; font-weight: 700; color: var(--text-primary); }
+.totalRight { text-align: right; }
+.totalAmount { display: block; font-size: 1.25rem; font-weight: 800; color: var(--blue-600); }
+.totalPct    { font-size: 0.82rem; color: var(--text-muted); }
