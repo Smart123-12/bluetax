@@ -6,34 +6,33 @@ interface Props {
   optimization: OptimizationResult;
 }
 
-const categoryIcon: Record<string, string> = {
-  retirement: '🏦',
-  health:     '🏥',
-  credit:     '✅',
-  deduction:  '📋',
+const categoryStyle: Record<string, { bg: string; icon: string }> = {
+  retirement: { bg: 'linear-gradient(135deg, hsl(213,85%,92%), hsl(213,80%,87%))', icon: '🏦' },
+  health:     { bg: 'linear-gradient(135deg, hsl(152,65%,92%), hsl(152,60%,88%))', icon: '🏥' },
+  credit:     { bg: 'linear-gradient(135deg, hsl(38,95%,92%),  hsl(38,90%,88%))',  icon: '✅' },
+  deduction:  { bg: 'linear-gradient(135deg, hsl(260,65%,93%), hsl(260,60%,88%))', icon: '📋' },
 };
 
 const priorityLabel: Record<string, string> = {
-  high:   'High Impact',
-  medium: 'Medium Impact',
-  low:    'Good to Know',
+  high:   '🔥 High Impact',
+  medium: '⚡ Medium Impact',
+  low:    '💡 Good to Know',
 };
-
 const priorityClass: Record<string, string> = {
-  high:   'badgeHigh',
-  medium: 'badgeMedium',
-  low:    'badgeLow',
+  high: 'badgeHigh', medium: 'badgeMedium', low: 'badgeLow',
 };
 
-function SuggestionCard({ s }: { s: Suggestion }) {
-  const savings = s.annualSavings > 0
-    ? `Save ~$${s.annualSavings.toLocaleString()}/year`
-    : 'Potential savings — varies';
-
+function SuggCard({ s, index }: { s: Suggestion; index: number }) {
+  const cat = categoryStyle[s.category];
   return (
-    <div className={styles.suggCard}>
-      <div className={styles.suggHeader}>
-        <span className={styles.suggIcon}>{categoryIcon[s.category]}</span>
+    <div
+      className={`${styles.suggCard} animate-in`}
+      style={{ animationDelay: `${index * 90}ms` }}
+    >
+      <div className={styles.suggTop}>
+        <div className={styles.suggIconBox} style={{ background: cat.bg }}>
+          {cat.icon}
+        </div>
         <div className={styles.suggMeta}>
           <h4 className={styles.suggTitle}>{s.title}</h4>
           <span className={`${styles.badge} ${styles[priorityClass[s.priority]]}`}>
@@ -42,14 +41,18 @@ function SuggestionCard({ s }: { s: Suggestion }) {
         </div>
         {s.annualSavings > 0 && (
           <div className={styles.savingsChip}>
-            <span className={styles.savingsAmt}>${s.annualSavings.toLocaleString()}</span>
-            <span className={styles.savingsPer}>/yr</span>
+            <span className={styles.chipAmt}>${s.annualSavings.toLocaleString()}</span>
+            <span className={styles.chipPer}>saved/yr</span>
           </div>
         )}
       </div>
-      <p className={styles.suggDesc}>{s.description}</p>
+
+      <div className={styles.suggBody}>
+        <p className={styles.suggDesc}>{s.description}</p>
+      </div>
+
       <div className={styles.suggAction}>
-        <span className={styles.actionArrow}>→</span>
+        <span className={styles.actionIcon}>→</span>
         <span>{s.action}</span>
       </div>
     </div>
@@ -64,8 +67,8 @@ export function OptimizationPanel({ optimization }: Props) {
       <div className={`card ${styles.panel}`}>
         <h3 className={styles.panelTitle}>✨ Optimization</h3>
         <div className={styles.allGood}>
-          <span className={styles.allGoodIcon}>🎉</span>
-          <p>You're already well-optimized! Keep contributing to your retirement accounts.</p>
+          <span className={styles.allGoodEmoji}>🎉</span>
+          <p>You&apos;re already well-optimized! Keep maxing out your retirement accounts.</p>
         </div>
       </div>
     );
@@ -81,14 +84,15 @@ export function OptimizationPanel({ optimization }: Props) {
       <div className={styles.panelHeader}>
         <h3 className={styles.panelTitle}>✨ Save More Money</h3>
         {totalPotentialSavings > 0 && (
-          <div className={styles.totalSavings}>
-            <span className={styles.totalSavingsLabel}>Total potential savings</span>
-            <span className={styles.totalSavingsAmt}>${totalPotentialSavings.toLocaleString()}/yr</span>
+          <div className={styles.totalBox}>
+            <span className={styles.totalBoxLabel}>Total potential savings</span>
+            <span className={styles.totalBoxAmt}>${totalPotentialSavings.toLocaleString()}/yr</span>
           </div>
         )}
       </div>
+
       <div className={styles.suggList}>
-        {sorted.map(s => <SuggestionCard key={s.id} s={s} />)}
+        {sorted.map((s, i) => <SuggCard key={s.id} s={s} index={i} />)}
       </div>
     </div>
   );

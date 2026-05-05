@@ -2,79 +2,91 @@
 import styles from './EffectiveRateGauge.module.css';
 
 interface Props {
-  rate: number;  // 0–100 effective tax rate
+  rate: number;
   gross: number;
 }
 
 export function EffectiveRateGauge({ rate, gross }: Props) {
-  // SVG arc gauge: semicircle from 180° to 0°
-  const RADIUS = 70;
-  const CIRCUMFERENCE = Math.PI * RADIUS; // semicircle
-  const clampedRate = Math.min(rate, 50); // cap at 50% for display
-  const fillPct = clampedRate / 50; // 0→1
-  const dashOffset = CIRCUMFERENCE * (1 - fillPct);
+  /* SVG arc gauge — semicircle, stroke-dasharray trick */
+  const R   = 72;
+  const CX  = 110;
+  const CY  = 100;
+  const ARC_LEN = Math.PI * R;               // half circumference
+  const clamp   = Math.min(rate, 50);        // cap display at 50%
+  const filled  = (clamp / 50) * ARC_LEN;
+  const empty   = ARC_LEN - filled;
 
-  const getRateColor = () => {
-    if (rate < 20) return 'var(--green-400)';
-    if (rate < 30) return 'var(--amber-400)';
-    return 'var(--rose-400)';
-  };
-
-  const getRateLabel = () => {
-    if (rate < 18) return 'Great rate!';
-    if (rate < 25) return 'Pretty typical';
-    if (rate < 32) return 'Getting high';
-    return 'Lots of room to optimize!';
-  };
+  const color = rate < 20 ? 'var(--green-400)' : rate < 30 ? 'var(--amber-400)' : 'var(--rose-400)';
+  const label = rate < 18 ? '🎉 Excellent' : rate < 24 ? '👍 Pretty normal' : rate < 32 ? '⚠️ Getting high' : '🔴 Optimize now';
+  const avgCA = 26; // approximate CA W2 effective rate benchmark
 
   return (
     <div className={`card ${styles.card}`}>
       <h3 className={styles.title}>📈 Effective Tax Rate</h3>
-      <div className={styles.gaugeWrapper}>
-        <svg viewBox="0 0 180 100" className={styles.svg}>
-          {/* Background arc */}
+
+      <div className={styles.gaugeArea}>
+        <svg viewBox="0 0 220 120" className={styles.svg} aria-label={`Effective tax rate: ${rate}%`}>
+          {/* Track */}
           <path
-            d="M 10 90 A 80 80 0 0 1 170 90"
+            d={`M ${CX - R} ${CY} A ${R} ${R} 0 0 1 ${CX + R} ${CY}`}
             fill="none"
-            stroke="var(--blue-100)"
-            strokeWidth="12"
+            stroke="hsla(213,60%,90%,0.8)"
+            strokeWidth="14"
             strokeLinecap="round"
           />
-          {/* Filled arc */}
+          {/* Fill */}
           <path
-            d="M 10 90 A 80 80 0 0 1 170 90"
+            d={`M ${CX - R} ${CY} A ${R} ${R} 0 0 1 ${CX + R} ${CY}`}
             fill="none"
-            stroke={getRateColor()}
-            strokeWidth="12"
+            stroke={color}
+            strokeWidth="14"
             strokeLinecap="round"
-            strokeDasharray={`${CIRCUMFERENCE}`}
-            strokeDashoffset={`${dashOffset}`}
+            strokeDasharray={`${filled} ${empty}`}
             style={{
-              transition: 'stroke-dashoffset 1200ms var(--ease-spring)',
-              filter: `drop-shadow(0 2px 8px ${getRateColor()}60)`,
+              filter: `drop-shadow(0 2px 10px ${color}80)`,
+              transition: 'stroke-dasharray 1.4s var(--ease-spring)',
             }}
           />
-          {/* Center text */}
-          <text x="90" y="78" textAnchor="middle" className={styles.rateText}
-            style={{ fill: getRateColor() }}>
+          {/* Glow dot at end of arc */}
+          {filled > 4 && (
+            <circle
+              cx={CX + R * Math.cos(Math.PI - (filled / ARC_LEN) * Math.PI)}
+              cy={CY - R * Math.sin(Math.PI - (filled / ARC_LEN) * Math.PI) + (CY - CY)}
+              r="6"
+              fill="white"
+              stroke={color}
+              strokeWidth="3"
+            />
+          )}
+          {/* Center rate text */}
+          <text x={CX} y={CY - 4} textAnchor="middle" className={styles.rateNum} style={{ fill: color }}>
             {rate.toFixed(1)}%
           </text>
+          <text x={CX} y={CY + 14} textAnchor="middle" className={styles.rateUnit}>
+            effective rate
+          </text>
         </svg>
-        <p className={styles.rateLabel} style={{ color: getRateColor() }}>{getRateLabel()}</p>
+
+        <div className={styles.rateLabel} style={{ color }}>
+          {label}
+        </div>
       </div>
 
+      {/* Stats row */}
       <div className={styles.statsGrid}>
         <div className={styles.stat}>
-          <span className={styles.statLabel}>Gross</span>
-          <span className={styles.statValue}>${gross.toLocaleString()}</span>
+          <span className={styles.statValue}>${Math.round(gross / 1000)}k</span>
+          <span className={styles.statLabel}>Gross income</span>
         </div>
         <div className={styles.stat}>
-          <span className={styles.statLabel}>Avg effective rate (CA W2)</span>
-          <span className={styles.statValue}>~26%</span>
+          <span className={styles.statValue} style={{ color: rate < avgCA ? 'var(--green-500)' : 'var(--rose-400)' }}>
+            {rate < avgCA ? `${(avgCA - rate).toFixed(1)}% below` : `${(rate - avgCA).toFixed(1)}% above`}
+          </span>
+          <span className={styles.statLabel}>vs CA avg (~{avgCA}%)</span>
         </div>
         <div className={styles.stat}>
+          <span className={styles.statValue}>{rate.toFixed(1)}%</span>
           <span className={styles.statLabel}>Your rate</span>
-          <span className={styles.statValue} style={{ color: getRateColor() }}>{rate.toFixed(1)}%</span>
         </div>
       </div>
     </div>

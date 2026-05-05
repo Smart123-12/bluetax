@@ -1,6 +1,8 @@
-/* ── Shared step styles ─────────────────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════
+   Steps.module.css — Premium shared styles for wizard steps
+   ═══════════════════════════════════════════════════════ */
 
-/* Option grid (2-col cards) */
+/* ── 2-col option cards (Step 1) ──────────────────────── */
 .optionGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -11,114 +13,170 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
-  padding: 24px 16px;
-  border: 2px solid var(--border-card);
+  gap: 10px;
+  padding: 28px 16px 22px;
+  border: 1.5px solid rgba(255,255,255,0.7);
   border-radius: var(--radius-lg);
-  background: var(--surface-card);
+  background: rgba(255,255,255,0.55);
+  backdrop-filter: blur(14px);
   cursor: pointer;
   transition: all var(--duration-base) var(--ease-spring);
   font-family: var(--font);
   text-align: center;
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  overflow: hidden;
+}
+.optionCard::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0) 60%);
+  pointer-events: none;
 }
 .optionCard:hover {
   border-color: var(--blue-300);
-  background: var(--blue-50);
-  transform: translateY(-3px);
+  background: rgba(255,255,255,0.82);
+  transform: translateY(-4px) scale(1.01);
   box-shadow: var(--shadow-blue);
 }
 .optionCard.selected {
-  border-color: var(--blue-500);
-  background: var(--blue-50);
-  box-shadow: 0 0 0 3px hsla(213,85%,52%,0.15);
+  border-color: var(--blue-400);
+  background: linear-gradient(135deg, hsla(213,90%,95%,0.9), hsla(195,85%,95%,0.85));
+  box-shadow: 0 0 0 3px hsla(213,85%,52%,0.18), var(--shadow-blue);
+  transform: translateY(-2px);
 }
 
-.optionIcon { font-size: 2rem; }
-.optionLabel { font-size: 0.95rem; font-weight: 600; color: var(--text-primary); }
-.optionHint  { font-size: 0.8rem;  color: var(--text-muted); }
+.optionIcon {
+  font-size: 2.2rem;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.10));
+  transition: transform var(--duration-base) var(--ease-spring);
+}
+.optionCard:hover .optionIcon { transform: scale(1.15) rotate(-4deg); }
 
-/* Option list (full-width rows) */
+.optionLabel {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+.optionHint {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+/* ── List options (Step 3 — filing status) ────────────── */
 .optionList { display: flex; flex-direction: column; gap: 10px; }
 
 .listOption {
   display: flex;
   align-items: center;
   gap: 14px;
-  padding: 16px 20px;
-  border: 2px solid var(--border-card);
+  padding: 16px 18px;
+  border: 1.5px solid rgba(255,255,255,0.7);
   border-radius: var(--radius-md);
-  background: var(--surface-card);
+  background: rgba(255,255,255,0.55);
+  backdrop-filter: blur(12px);
   cursor: pointer;
   transition: all var(--duration-fast) var(--ease-smooth);
   font-family: var(--font);
   text-align: left;
+  box-shadow: var(--shadow-xs);
 }
 .listOption:hover {
   border-color: var(--blue-300);
-  background: var(--blue-50);
-  transform: translateX(4px);
+  background: rgba(255,255,255,0.82);
+  transform: translateX(6px);
+  box-shadow: var(--shadow-sm);
 }
 .listOption.selected {
-  border-color: var(--blue-500);
-  background: var(--blue-50);
-  box-shadow: 0 0 0 3px hsla(213,85%,52%,0.12);
+  border-color: var(--blue-400);
+  background: linear-gradient(135deg, hsla(213,90%,95%,0.9), hsla(195,85%,95%,0.85));
+  box-shadow: 0 0 0 3px hsla(213,85%,52%,0.14), var(--shadow-sm);
 }
-.listIcon    { font-size: 1.5rem; }
-.listText    { flex: 1; display: flex; flex-direction: column; gap: 2px; }
-.listLabel   { font-size: 0.95rem; font-weight: 600; color: var(--text-primary); }
-.listHint    { font-size: 0.8rem; color: var(--text-muted); }
-.checkmark   { font-size: 1.2rem; color: var(--blue-500); font-weight: 700; }
 
-/* State grid */
+.listIcon    { font-size: 1.6rem; filter: drop-shadow(0 1px 3px rgba(0,0,0,0.08)); }
+.listText    { flex: 1; display: flex; flex-direction: column; gap: 1px; }
+.listLabel   { font-size: 0.93rem; font-weight: 700; color: var(--text-primary); }
+.listHint    { font-size: 0.78rem; color: var(--text-muted); }
+.checkmark   {
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--blue-500), var(--teal-400));
+  color: white;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 800;
+  box-shadow: var(--shadow-blue);
+  flex-shrink: 0;
+}
+
+/* ── State grid (Step 4) ─────────────────────────────── */
 .stateGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
 }
+
 .stateOption {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
-  padding: 16px 10px;
-  border: 2px solid var(--border-card);
+  gap: 5px;
+  padding: 18px 10px 14px;
+  border: 1.5px solid rgba(255,255,255,0.7);
   border-radius: var(--radius-md);
-  background: var(--surface-card);
+  background: rgba(255,255,255,0.55);
+  backdrop-filter: blur(12px);
   cursor: pointer;
   font-family: var(--font);
   transition: all var(--duration-fast) var(--ease-smooth);
   position: relative;
+  box-shadow: var(--shadow-xs);
 }
-.stateOption:hover   { border-color: var(--blue-300); background: var(--blue-50); }
-.stateOption.selected { border-color: var(--blue-500); background: var(--blue-50); box-shadow: 0 0 0 3px hsla(213,85%,52%,0.12); }
-.stateOption.comingSoon { opacity: 0.65; }
-.stateFlag   { font-size: 1.6rem; }
-.stateName   { font-size: 0.78rem; font-weight: 600; color: var(--text-secondary); text-align: center; }
+.stateOption:hover   {
+  border-color: var(--blue-300);
+  background: rgba(255,255,255,0.82);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-sm);
+}
+.stateOption.selected {
+  border-color: var(--blue-400);
+  background: linear-gradient(135deg, hsla(213,90%,95%,0.9), hsla(195,85%,95%,0.85));
+  box-shadow: 0 0 0 3px hsla(213,85%,52%,0.14), var(--shadow-sm);
+}
+.stateOption.comingSoon { opacity: 0.6; }
+.stateFlag   { font-size: 1.8rem; filter: drop-shadow(0 1px 3px rgba(0,0,0,0.1)); }
+.stateName   { font-size: 0.76rem; font-weight: 700; color: var(--text-secondary); text-align: center; }
 .soonBadge {
   position: absolute;
-  top: 6px; right: 6px;
-  font-size: 0.6rem;
-  font-weight: 700;
-  background: var(--blue-100);
+  top: 5px; right: 5px;
+  font-size: 0.58rem;
+  font-weight: 800;
+  background: rgba(255,255,255,0.8);
   color: var(--blue-600);
   padding: 2px 6px;
   border-radius: var(--radius-full);
   text-transform: uppercase;
   letter-spacing: 0.06em;
+  border: 1px solid var(--blue-200);
 }
 .stateNote {
-  margin-top: 8px;
-  font-size: 0.85rem;
-  color: var(--blue-600);
-  background: var(--blue-50);
+  margin-top: 10px;
+  font-size: 0.83rem;
+  color: var(--blue-700);
+  background: hsla(213, 85%, 97%, 0.8);
   padding: 12px 16px;
   border-radius: var(--radius-md);
   border: 1px solid var(--blue-200);
+  backdrop-filter: blur(8px);
 }
 
-/* Currency input */
+/* ── Currency input ──────────────────────────────────── */
 .inputGroup { display: flex; flex-direction: column; gap: 12px; }
-.fieldLabel  { font-size: 0.85rem; font-weight: 600; color: var(--text-secondary); }
+.fieldLabel { font-size: 0.82rem; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.06em; }
 
 .currencyInput {
   position: relative;
@@ -127,130 +185,165 @@
 }
 .currencySymbol {
   position: absolute;
-  left: 18px;
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: var(--text-muted);
+  left: 20px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--blue-400);
   pointer-events: none;
+  z-index: 1;
 }
 .incomeInput {
-  padding-left: 36px !important;
-  padding-right: 52px !important;
-  font-size: 1.3rem !important;
-  font-weight: 600 !important;
+  padding-left: 40px !important;
+  padding-right: 56px !important;
+  font-size: 1.4rem !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.02em !important;
+  background: rgba(255,255,255,0.85) !important;
+}
+.incomeInput:focus {
+  background: rgba(255,255,255,0.98) !important;
 }
 .perYear {
   position: absolute;
-  right: 18px;
-  font-size: 0.85rem;
+  right: 20px;
+  font-size: 0.82rem;
+  font-weight: 700;
   color: var(--text-muted);
   pointer-events: none;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
-.inputError { border-color: var(--rose-400) !important; }
-.errorMsg   { font-size: 0.85rem; color: var(--rose-400); font-weight: 500; }
-.hint       { font-size: 0.83rem; color: var(--blue-500); font-weight: 500; }
+.inputError { border-color: var(--rose-400) !important; box-shadow: 0 0 0 3px hsla(353,85%,63%,0.12) !important; }
+.errorMsg   { font-size: 0.83rem; color: var(--rose-500); font-weight: 600; padding: 8px 14px; background: hsla(353,85%,97%,0.8); border-radius: var(--radius-sm); }
+.hint       { font-size: 0.82rem; color: var(--blue-600); font-weight: 600; padding: 8px 14px; background: hsla(213,85%,96%,0.8); border-radius: var(--radius-sm); }
 
-/* Slider */
+/* ── Slider (Step 5) ────────────────────────────────── */
 .sliderRow { display: flex; align-items: center; gap: 12px; }
 .slider {
   flex: 1;
   -webkit-appearance: none;
   height: 6px;
-  background: var(--blue-100);
+  background: linear-gradient(90deg, var(--blue-300), var(--teal-300));
   border-radius: var(--radius-full);
   outline: none;
   cursor: pointer;
+  box-shadow: var(--shadow-inner);
 }
 .slider::-webkit-slider-thumb {
   -webkit-appearance: none;
-  width: 20px; height: 20px;
+  width: 22px; height: 22px;
   border-radius: 50%;
   background: linear-gradient(135deg, var(--blue-500), var(--teal-400));
-  box-shadow: var(--shadow-blue);
+  box-shadow: var(--shadow-blue), 0 0 0 3px white;
   cursor: pointer;
-  transition: transform var(--duration-fast);
+  transition: transform var(--duration-fast) var(--ease-spring);
 }
-.slider::-webkit-slider-thumb:hover { transform: scale(1.2); }
-.sliderMax { font-size: 0.8rem; color: var(--text-muted); white-space: nowrap; }
+.slider::-webkit-slider-thumb:hover { transform: scale(1.25); }
+.slider::-webkit-slider-thumb:active { transform: scale(1.1); }
+.sliderMax { font-size: 0.78rem; color: var(--text-muted); white-space: nowrap; font-weight: 600; }
 
-/* Yes/No buttons */
+/* ── Yes / No buttons ────────────────────────────────── */
 .yesNoGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .yesNoBtn {
-  padding: 18px 16px;
-  border: 2px solid var(--border-card);
+  padding: 20px 16px;
+  border: 1.5px solid rgba(255,255,255,0.7);
   border-radius: var(--radius-md);
   font-family: var(--font);
   font-size: 0.95rem;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
-  transition: all var(--duration-fast) var(--ease-smooth);
-  background: var(--surface-card);
+  transition: all var(--duration-base) var(--ease-spring);
+  background: rgba(255,255,255,0.55);
+  backdrop-filter: blur(12px);
+  box-shadow: var(--shadow-xs);
+  letter-spacing: -0.01em;
 }
-.yesNoBtn.yes:hover { border-color: var(--green-400); background: hsl(152,60%,96%); }
-.yesNoBtn.no:hover  { border-color: var(--border-card); background: var(--blue-50); }
+.yesNoBtn.yes:hover {
+  border-color: var(--green-400);
+  background: hsl(152,60%,96%);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-green);
+}
+.yesNoBtn.no:hover  {
+  border-color: var(--blue-300);
+  background: rgba(255,255,255,0.82);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-sm);
+}
 
-/* Stepper (dependents) */
+/* ── Stepper (Step 7 — dependents) ─────────────────── */
 .stepperWrapper {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 24px;
-  padding: 16px 0;
+  gap: 28px;
+  padding: 20px 0;
 }
 .stepperBtn {
-  width: 52px; height: 52px;
+  width: 58px; height: 58px;
   border-radius: 50%;
-  border: 2px solid var(--border-card);
-  background: var(--surface-card);
-  font-size: 1.5rem;
+  border: 1.5px solid rgba(255,255,255,0.7);
+  background: rgba(255,255,255,0.65);
+  backdrop-filter: blur(10px);
+  font-size: 1.6rem;
   font-weight: 600;
   cursor: pointer;
   color: var(--blue-500);
-  transition: all var(--duration-fast) var(--ease-smooth);
+  transition: all var(--duration-base) var(--ease-spring);
   display: flex; align-items: center; justify-content: center;
+  box-shadow: var(--shadow-sm);
 }
 .stepperBtn:hover:not(:disabled) {
-  border-color: var(--blue-500);
-  background: var(--blue-50);
+  border-color: var(--blue-400);
+  background: rgba(255,255,255,0.9);
   box-shadow: var(--shadow-blue);
-  transform: scale(1.1);
+  transform: scale(1.12);
 }
-.stepperBtn:disabled { opacity: 0.35; cursor: not-allowed; }
-.stepperValue { text-align: center; min-width: 80px; }
-.stepperNum  { display: block; font-size: 2.5rem; font-weight: 800; color: var(--blue-500); line-height: 1; }
-.stepperUnit { font-size: 0.9rem; color: var(--text-muted); font-weight: 500; }
+.stepperBtn:disabled { opacity: 0.3; cursor: not-allowed; }
+.stepperValue { text-align: center; min-width: 90px; }
+.stepperNum  { display: block; font-size: 3rem; font-weight: 900; color: var(--blue-500); line-height: 1; letter-spacing: -0.05em; background: linear-gradient(135deg, var(--blue-500), var(--teal-400)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.stepperUnit { font-size: 0.88rem; color: var(--text-muted); font-weight: 600; }
 
-/* Credit note */
+/* ── Credit note ────────────────────────────────────── */
 .creditNote {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   padding: 14px 18px;
-  background: hsl(152, 60%, 96%);
-  border: 1px solid hsl(152, 55%, 80%);
+  background: linear-gradient(135deg, hsla(152,65%,96%,0.9), hsla(152,60%,94%,0.85));
+  border: 1.5px solid hsl(152,55%,82%);
   border-radius: var(--radius-md);
   font-size: 0.9rem;
-  color: var(--green-500);
+  color: var(--green-600);
+  box-shadow: var(--shadow-green);
+  backdrop-filter: blur(8px);
 }
-.creditIcon { font-size: 1.2rem; }
-.creditNote p { color: var(--green-500) !important; }
+.creditIcon { font-size: 1.3rem; }
+.creditNote p { color: var(--green-600) !important; font-weight: 600; }
+.creditNote strong { color: var(--green-500); }
 
-/* Calculate button */
+/* ── Calculate button ───────────────────────────────── */
 .calculateBtn {
   width: 100%;
-  padding: 18px !important;
+  padding: 20px !important;
   font-size: 1.05rem !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.01em !important;
+  position: relative;
 }
 
-/* Disclaimer */
+/* ── Disclaimer ─────────────────────────────────────── */
 .disclaimer {
   text-align: center;
-  font-size: 0.78rem;
+  font-size: 0.76rem;
   color: var(--text-muted) !important;
-  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
 }
 
-/* Responsive */
+/* ── Responsive ─────────────────────────────────────── */
 @media (max-width: 480px) {
   .optionGrid { grid-template-columns: 1fr; }
   .stateGrid  { grid-template-columns: repeat(2, 1fr); }

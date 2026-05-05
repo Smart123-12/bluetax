@@ -18,7 +18,11 @@ export function QuestionCard({ emoji, title, subtitle, children, onBack, showBac
         </button>
       )}
       <div className={styles.header}>
-        {emoji && <div className={styles.emoji}>{emoji}</div>}
+        {emoji && (
+          <div className={styles.emojiWrapper}>
+            <span className={styles.emoji}>{emoji}</span>
+          </div>
+        )}
         <h2 className={styles.title}>{title}</h2>
         {subtitle && <p className={styles.subtitle}>{subtitle}</p>}
       </div>

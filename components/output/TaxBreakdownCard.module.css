@@ -1,36 +1,97 @@
-.card { padding: 28px; }
-.title { font-size: 1.1rem; margin-bottom: 18px; }
-
-.grossRow {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 10px 0;
+.card {
+  padding: 28px 32px;
+  overflow: hidden;
 }
-.grossLabel  { font-size: 0.9rem; font-weight: 600; color: var(--text-secondary); }
-.grossAmount { font-size: 1.15rem; font-weight: 700; color: var(--text-primary); }
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+.title { font-size: 1rem; font-weight: 800; color: var(--text-primary); display: flex; align-items: center; gap: 8px; }
+
+.grossBadge {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1px;
+}
+.grossLabel { font-size: 0.68rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; }
+.grossAmount { font-size: 1.05rem; font-weight: 800; color: var(--text-primary); letter-spacing: -0.02em; }
 
 .agiRow {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 6px 0;
-  font-size: 0.83rem;
-  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 12px;
+  background: hsla(213, 80%, 97%, 0.7);
+  border: 1px solid var(--blue-100);
+  border-radius: var(--radius-sm);
+  margin-bottom: 20px;
+  font-size: 0.8rem;
+}
+.agiRow span:first-child { color: var(--text-muted); font-weight: 500; }
+.agiRow span:last-child  { color: var(--blue-600); font-weight: 700; }
+
+.divider { height: 1px; background: var(--border-subtle); margin: 16px 0; }
+
+/* ── Tax rows ────────────────────────────────────────── */
+.rows { display: flex; flex-direction: column; gap: 0; }
+
+.row { padding: 12px 0; }
+
+.rowTop {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+.dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 3px rgba(0,0,0,0.05);
+}
+.rowInfo { flex: 1; min-width: 0; }
+.rowLabel { font-size: 0.88rem; font-weight: 700; color: var(--text-primary); }
+.rowHint  { font-size: 0.73rem; color: var(--text-muted); margin-top: 1px; }
+.rowAmounts {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1px;
+  flex-shrink: 0;
+}
+.rowAmount { font-size: 1rem; font-weight: 800; color: var(--text-primary); letter-spacing: -0.02em; }
+.rowPct    { font-size: 0.72rem; color: var(--text-muted); font-weight: 600; }
+
+/* Bar */
+.barTrack {
+  height: 7px;
+  background: hsla(213, 50%, 95%, 0.8);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  box-shadow: var(--shadow-inner);
+}
+.barFill {
+  height: 100%;
+  border-radius: var(--radius-full);
+  animation: barGrow 1s var(--ease-spring) both;
 }
 
-.divider { height: 1px; background: var(--border-subtle); margin: 12px 0; }
-
-.row { margin-bottom: 18px; }
-.rowLeft  { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 6px; }
-.rowDot   { width: 10px; height: 10px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
-.rowLabel { font-size: 0.9rem; font-weight: 600; color: var(--text-primary); }
-.rowHint  { font-size: 0.75rem; color: var(--text-muted); margin-top: 2px; }
-.rowRight { display: flex; justify-content: space-between; align-items: center; padding-left: 22px; margin-bottom: 6px; }
-.rowAmount { font-size: 1rem; font-weight: 700; color: var(--text-primary); }
-.rowPct    { font-size: 0.8rem; color: var(--text-muted); }
-
-.rowBar      { height: 5px; background: var(--blue-50); border-radius: var(--radius-full); overflow: hidden; margin-left: 22px; }
-.rowBarFill  { height: 100%; border-radius: var(--radius-full); transition: width 800ms var(--ease-spring); }
-
-.totalRow  { display: flex; justify-content: space-between; align-items: center; }
-.totalLabel { font-size: 1rem; font-weight: 700; color: var(--text-primary); }
+/* ── Total row ────────────────────────────────────────── */
+.totalRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 18px;
+  background: linear-gradient(135deg, hsla(213,85%,96%,0.8), hsla(195,80%,96%,0.75));
+  border: 1.5px solid var(--blue-200);
+  border-radius: var(--radius-md);
+  backdrop-filter: blur(8px);
+}
+.totalLabel { font-size: 0.95rem; font-weight: 800; color: var(--text-primary); }
 .totalRight { text-align: right; }
-.totalAmount { display: block; font-size: 1.25rem; font-weight: 800; color: var(--blue-600); }
-.totalPct    { font-size: 0.82rem; color: var(--text-muted); }
+.totalAmount { display: block; font-size: 1.4rem; font-weight: 900; color: var(--blue-600); letter-spacing: -0.03em; }
+.totalPct    { font-size: 0.78rem; color: var(--text-muted); font-weight: 600; }

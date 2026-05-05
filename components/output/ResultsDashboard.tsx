@@ -14,58 +14,87 @@ interface Props {
 }
 
 export function ResultsDashboard({ result, optimization, inputs, onBack, onReset }: Props) {
-  const fmt = (n: number) => '$' + Math.abs(n).toLocaleString();
+  const fmt  = (n: number) => '$' + Math.abs(Math.round(n)).toLocaleString();
+  const pct  = (n: number) => result.grossAnnual > 0
+    ? ((n / result.grossAnnual) * 100).toFixed(1) + '%' : '—';
 
   return (
     <div className={styles.dashboard}>
-      {/* ── Header ── */}
+
+      {/* ── Hero header card ── */}
       <div className={`${styles.header} animate-in`}>
-        <div className={styles.headerTop}>
-          <button className="btn btn--back" onClick={onBack} id="btn-results-back">← Edit</button>
-          <button className="btn btn--ghost" onClick={onReset} id="btn-start-over"
-            style={{ fontSize: '0.85rem', padding: '8px 18px' }}>
-            Start Over
-          </button>
-        </div>
+        <div className={styles.headerBg} />
+        <div className={styles.headerBgOverlay} />
         <div className={styles.headerContent}>
-          <p className={styles.headerLabel}>Your estimated take-home</p>
-          <h1 className={styles.netIncome}>{fmt(result.netMonthly)}<span>/mo</span></h1>
-          <p className={styles.netAnnual}>{fmt(result.netAnnual)} per year</p>
+          <div className={styles.headerNav}>
+            <button className={styles.headerNavBtn} onClick={onBack} id="btn-results-back">
+              ← Edit answers
+            </button>
+            <button className={styles.headerNavBtn} onClick={onReset} id="btn-start-over">
+              ↺ Start over
+            </button>
+          </div>
+          <div className={styles.headerHero}>
+            <p className={styles.heroLabel}>Your monthly take-home</p>
+            <p className={styles.heroAmount}>
+              {fmt(result.netMonthly)}
+              <span className={styles.heroAmountSub}>/mo</span>
+            </p>
+            <p className={styles.heroAnnual}>{fmt(result.netAnnual)} per year</p>
+          </div>
+          <div className={styles.headerStats}>
+            <div className={styles.hStat}>
+              <span className={styles.hStatNum}>{pct(result.federalTax)}</span>
+              <span className={styles.hStatLabel}>Federal</span>
+            </div>
+            <div className={styles.hStatDivider} />
+            <div className={styles.hStat}>
+              <span className={styles.hStatNum}>{pct(result.stateTax)}</span>
+              <span className={styles.hStatLabel}>{inputs.state === 'CA' ? 'CA + SDI' : 'State'}</span>
+            </div>
+            <div className={styles.hStatDivider} />
+            <div className={styles.hStat}>
+              <span className={styles.hStatNum}>{pct(result.ficaTotal)}</span>
+              <span className={styles.hStatLabel}>FICA</span>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* ── Savings Banner (if any) ── */}
+      {/* ── Savings banner ── */}
       {optimization.totalPotentialSavings > 0 && (
         <div className={`${styles.savingsBanner} animate-in delay-1`}>
-          <span className={styles.savingsEmoji}>💡</span>
-          <div>
-            <p className={styles.savingsTitle}>You could save <strong>{fmt(optimization.totalPotentialSavings)}/year</strong></p>
-            <p className={styles.savingsSubtitle}>See personalized recommendations below</p>
+          <div className={styles.savingsIconWrap}>💡</div>
+          <div className={styles.savingsText}>
+            <p className={styles.savingsTitle}>
+              Save up to <strong>{fmt(optimization.totalPotentialSavings)}/year</strong> with smart moves ↓
+            </p>
+            <p className={styles.savingsSubtitle}>Personalized recommendations based on your profile</p>
           </div>
         </div>
       )}
 
       {/* ── Gauge ── */}
-      <div className={`animate-in delay-2`}>
+      <div className="animate-in delay-2">
         <EffectiveRateGauge rate={result.effectiveRate} gross={result.grossAnnual} />
       </div>
 
-      {/* ── Tax Breakdown ── */}
-      <div className={`animate-in delay-3`}>
+      {/* ── Breakdown ── */}
+      <div className="animate-in delay-3">
         <TaxBreakdownCard result={result} inputs={inputs} />
       </div>
 
       {/* ── Optimization ── */}
-      <div className={`animate-in delay-4`}>
+      <div className="animate-in delay-4">
         <OptimizationPanel optimization={optimization} />
       </div>
 
       {/* ── Disclaimer ── */}
       <div className={`${styles.disclaimer} animate-in delay-5`}>
         <p>
-          🔒 <strong>100% private</strong> — all calculations happen in your browser. No data is stored or transmitted.
-          This is an <strong>estimation tool</strong> using 2026 IRS brackets and CA FTB rates. Not tax advice.
-          Consult a CPA for filing decisions.
+          🔒 All calculations run in your browser — nothing is stored or transmitted. This tool uses
+          official <strong>2026 IRS brackets</strong> and <strong>CA FTB rates</strong> for estimation.
+          Not tax advice — consult a CPA for filing decisions.
         </p>
       </div>
     </div>

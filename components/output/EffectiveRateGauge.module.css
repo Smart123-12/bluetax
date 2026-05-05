@@ -1,35 +1,51 @@
-.card    { padding: 28px; text-align: center; }
-.title   { text-align: left; font-size: 1.1rem; margin-bottom: 16px; }
+.card { padding: 28px 32px; }
+.title { font-size: 1rem; font-weight: 800; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
 
-.gaugeWrapper { display: flex; flex-direction: column; align-items: center; }
+.gaugeArea {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
 
 .svg {
-  width: 200px;
-  height: 116px;
+  width: 100%;
+  max-width: 240px;
+  height: auto;
   overflow: visible;
 }
 
-.rateText {
-  font-size: 22px;
-  font-weight: 800;
+.rateNum {
+  font-size: 26px;
+  font-weight: 900;
+  font-family: var(--font);
+  letter-spacing: -0.04em;
+}
+
+.rateUnit {
+  font-size: 9px;
+  font-weight: 600;
+  fill: var(--text-muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   font-family: var(--font);
 }
 
 .rateLabel {
-  font-size: 0.9rem;
-  font-weight: 600;
+  font-size: 0.95rem;
+  font-weight: 800;
   margin-top: -8px;
-  margin-bottom: 20px;
+  letter-spacing: -0.02em;
 }
 
+/* Stats */
 .statsGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
+  gap: 0;
   border-top: 1px solid var(--border-subtle);
-  padding-top: 16px;
+  padding-top: 18px;
 }
-
 .stat { text-align: center; }
-.statLabel { display: block; font-size: 0.72rem; color: var(--text-muted); font-weight: 500; margin-bottom: 4px; }
-.statValue { display: block; font-size: 0.95rem; font-weight: 700; color: var(--text-primary); }
+.statValue { display: block; font-size: 0.92rem; font-weight: 800; color: var(--text-primary); letter-spacing: -0.02em; margin-bottom: 3px; }
+.statLabel { display: block; font-size: 0.68rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; }
