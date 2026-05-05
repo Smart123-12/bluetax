@@ -94,7 +94,6 @@ export function ResultsDashboard({ result, optimization, inputs, onBack, onReset
         <p>
           🔒 All calculations run in your browser — nothing is stored or transmitted. This tool uses
           official <strong>2026 IRS brackets</strong> and <strong>CA FTB rates</strong> for estimation.
-          Not tax advice — consult a CPA for filing decisions.
         </p>
       </div>
     </div>
